@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model style {
+  id        Int    @id @default(autoincrement())
+  name      String
+  prompt    String
+  thumbnail String
+  gen       gen[]
+}
+
+model gen {
+  id        Int      @id @default(autoincrement())
+  style     style    @relation(fields: [styleId], references: [id])
+  styleId   Int
+  prompt    String
+  thumbnail String
+  text      String
+  createdAt DateTime @default(now())
+}
